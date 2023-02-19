@@ -14,12 +14,15 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
 	
 	JList ItemList;
 	DefaultListModel listModel;
@@ -46,57 +49,70 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setForeground(new Color(0, 128, 192));
+		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1531, 846);
 		contentPane = new JPanel();
+		contentPane.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		contentPane.setBackground(new Color(0, 128, 192));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(42, 28, 96, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(204, 28, 96, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
 		JButton btnAdd = new JButton("Lägg till");
+		btnAdd.setFocusPainted(false);
+		btnAdd.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				System.out.println(ItemList.getSelectedValue());
-				listModel.addElement("asdf");
-				System.out.println("testeststs");
-				System.out.println("testeststs");
+				
+				
+				String value = JOptionPane.showInputDialog("Ange namn och telefonnummer");
+				if (value.length() == 0) {
+					System.out.println("Lenth must be greater than 0");
+				}
+				else {
+					listModel.addElement(value);
+				}
+				
+
 				
 				
 
 			}
 		});
-		btnAdd.setBounds(312, 66, 89, 23);
+		btnAdd.setBounds(366, 136, 140, 78);
 		contentPane.add(btnAdd);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(312, 103, 89, 23);
-		contentPane.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setBounds(312, 146, 89, 23);
-		contentPane.add(btnNewButton_2);
-		
-		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(312, 185, 89, 23);
-		contentPane.add(btnNewButton_3);
 		
 		listModel = new DefaultListModel();
 		
 		ItemList = new JList(listModel);
-		ItemList.setBounds(56, 91, 212, 161);
+		ItemList.setBackground(new Color(255, 255, 255));
+		ItemList.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		ItemList.setBorder(new LineBorder(new Color(0, 0, 0), 4, true));
+		ItemList.setBounds(366, 246, 713, 523);
 		contentPane.add(ItemList);
+		
+		JButton btndelete = new JButton("Ta bort");
+		btndelete.setFocusPainted(false);
+		btndelete.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btndelete.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		btndelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					listModel.remove(ItemList.getSelectedIndex());
+				} catch (Exception e2) {
+					System.out.println(e2.getMessage());
+				}
+				
+			}
+		});
+		btndelete.setBounds(559, 136, 140, 78);
+		contentPane.add(btndelete);
 		
 	}
 	
