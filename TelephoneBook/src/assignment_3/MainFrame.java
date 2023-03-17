@@ -1,6 +1,7 @@
 package assignment_3;
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -28,6 +30,7 @@ public class MainFrame extends JFrame {
 	JList ItemList;
 	DefaultListModel listModel;
 	JLabel lblSortBy = new JLabel("Id");
+
 
 
 	/**
@@ -74,6 +77,10 @@ public class MainFrame extends JFrame {
 				BookItem newbokitem = new BookItem(nameAndNumber[0], nameAndNumber[1]);
 				
 				listModel.addElement( newbokitem.Name +"   "+newbokitem.Number+ "   "+ newbokitem.id);
+				
+				JLabel temp = new JLabel();
+				temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
+				
 
 			}
 		});
@@ -135,8 +142,16 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Object temp = cbSortBy.getSelectedItem();
-				lblSortBy.setText(temp.toString());
+				Object sort = cbSortBy.getSelectedItem();
+				lblSortBy.setText(sort.toString());
+				
+				// sort all the items:
+				if (sort.toString() == "Name") {
+					
+					System.out.println(listModel); 
+					listModel.clear();
+				}
+
 			}
 		});
 		
@@ -164,16 +179,20 @@ public class MainFrame extends JFrame {
 	}
 	
 	class BookItem{
+		
+		static ArrayList<String[]> contents = new ArrayList<String[]>();
 		static int TotalBooks = 0;
 		String Name;
 		String Number;
-		int id;
+		String id;
 		
 		public BookItem(String name, String number) {
 			this.Name = name;
 			this.Number = number;
-			this.id = TotalBooks;
+			this.id = Integer.toString(TotalBooks);
 			TotalBooks ++;
+			contents.add(new String[] {name, number, this.id});
+			
 			
 		}
 	}
