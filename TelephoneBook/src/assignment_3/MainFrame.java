@@ -13,6 +13,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -180,7 +181,9 @@ public class MainFrame extends JFrame {
 	
 	class BookItem{
 		
-		static ArrayList<String[]> contents = new ArrayList<String[]>();
+		static ArrayList<BookItem> ContentSortedById = new ArrayList<BookItem>();
+		static ArrayList<BookItem> ContentSortedByName = new ArrayList<BookItem>();
+
 		static int TotalBooks = 0;
 		String Name;
 		String Number;
@@ -190,8 +193,111 @@ public class MainFrame extends JFrame {
 			this.Name = name;
 			this.Number = number;
 			this.id = Integer.toString(TotalBooks);
+			
+			ContentSortedById.add(this);
+			addNewItemInNameList(this, 0, TotalBooks-1, 0);
 			TotalBooks ++;
-			contents.add(new String[] {name, number, this.id});
+			
+			printContents();
+			
+			
+			
+			
+			
+			
+		}
+		
+		public void printContents() {
+			
+			String sortedName = "";
+			String sortedId = "";
+			
+			for (int i = 0; i <= TotalBooks-1; i++) {
+				sortedName += ContentSortedByName.get(i).Name+ "   ";
+				sortedId += ContentSortedByName.get(i).id+ "   ";
+			}
+			System.out.println("IDs:   "+sortedId);
+			System.out.println("Names:   "+sortedName);
+			
+		}
+		
+		private void addNewItemInNameList(BookItem ItemToAdd, int LowestIndex, int HighestIndex, int loop) {
+			// alphabetical sort with recursion :)
+			
+			// failed for assar, kelvin, bert
+			int newlowest = LowestIndex;
+			int newhighest = HighestIndex;
+			
+			if (TotalBooks == 0) {
+				ContentSortedByName.add(ItemToAdd);
+				return;
+			}
+			else if (HighestIndex+1 == LowestIndex) {
+				System.out.println("here!!!!!!!!!");
+				ContentSortedByName.add(LowestIndex, ItemToAdd);
+				return;
+			}
+
+
+			else {
+				
+				for (int i = LowestIndex; i <= HighestIndex; i++) {
+					System.out.println(i + "   "+ loop);
+					//make sure that loop doesn't cause errors
+					int curriLen = ContentSortedByName.get(i).Name.length();
+					int targetLen = ItemToAdd.Name.length();
+					
+					
+					
+					
+					
+					if (ItemToAdd.Name.charAt(loop) > ContentSortedByName.get(i).Name.charAt(loop)) {
+						
+						System.out.println(">");
+						if (i == TotalBooks-1) {
+							ContentSortedByName.add(ItemToAdd);
+							return;
+						}
+						newlowest = i+1;
+					}
+					else if (ItemToAdd.Name.charAt(loop) < ContentSortedByName.get(i).Name.charAt(loop)){
+						System.out.println("<");
+						if (i == 0) {
+							
+							ContentSortedByName.add(0, ItemToAdd);
+							return;
+							// only returns one step and then the forloop in the previous loop continues which is a error
+						}
+						
+						newhighest = i-1;
+						break;
+						
+					}
+					
+					
+
+
+				}
+				
+				addNewItemInNameList(ItemToAdd, newlowest, newhighest, loop+1);
+
+			}
+
+			
+		}
+		
+		
+		public DefaultListModel SortChangeGUI(String modeToChangeTo) {
+			
+			if (modeToChangeTo == "name") {
+				
+				for (int i = 0; i < array.length; i++) {
+					
+				}
+			}
+			else if (modeToChangeTo == "id") {
+				
+			}
 			
 			
 		}
@@ -217,6 +323,8 @@ public class MainFrame extends JFrame {
 			return new String[] {name, number};
 			
 		}
+		
+		
 		
 		
 	}
