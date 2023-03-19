@@ -13,6 +13,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -29,9 +30,9 @@ public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
 	JList ItemList;
-	DefaultListModel listModel;
+	DefaultListModel<String> listModel;
 	JLabel lblSortBy = new JLabel("Id");
-
+	String sort = "Id";
 
 
 	/**
@@ -77,7 +78,8 @@ public class MainFrame extends JFrame {
 				
 				BookItem newbokitem = new BookItem(nameAndNumber[0], nameAndNumber[1]);
 				
-				listModel.addElement( newbokitem.Name +"   "+newbokitem.Number+ "   "+ newbokitem.id);
+				listModel.clear();
+				listModel.addAll(BookItem.UpdateGUI(sort));
 				
 				JLabel temp = new JLabel();
 				temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
@@ -88,7 +90,7 @@ public class MainFrame extends JFrame {
 		btnAdd.setBounds(366, 60, 140, 78);
 		contentPane.add(btnAdd);
 		
-		listModel = new DefaultListModel();
+		listModel = new DefaultListModel<String>();
 		
 		ItemList = new JList(listModel);
 		ItemList.setBackground(new Color(255, 255, 255));
@@ -143,15 +145,14 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Object sort = cbSortBy.getSelectedItem();
+				sort = cbSortBy.getSelectedItem().toString();
 				lblSortBy.setText(sort.toString());
 				
 				// sort all the items:
-				if (sort.toString() == "Name") {
-					
-					System.out.println(listModel); 
-					listModel.clear();
-				}
+				listModel.clear();
+				listModel.addAll(BookItem.UpdateGUI(sort));
+				
+				System.out.println(listModel);
 
 			}
 		});
@@ -287,17 +288,28 @@ public class MainFrame extends JFrame {
 		}
 		
 		
-		public DefaultListModel SortChangeGUI(String modeToChangeTo) {
+		public static ArrayList<String> UpdateGUI(String modeToChangeTo) {
 			
-			if (modeToChangeTo == "name") {
-				
-				for (int i = 0; i < array.length; i++) {
-					
+			// template: newbokitem.Name +"   "+newbokitem.Number+ "   "+ newbokitem.id
+			ArrayList<String> toReturn = new ArrayList<String>();
+			if (modeToChangeTo == "Name") {
+
+				for (int i = 0; i < ContentSortedByName.size(); i++) {
+					System.out.println(i);
+					BookItem bookItem = ContentSortedByName.get(i);
+					toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
 				}
 			}
-			else if (modeToChangeTo == "id") {
+			else if (modeToChangeTo == "Id") {
 				
+				for (int i = 0; i < ContentSortedById.size(); i++) {
+					
+					BookItem bookItem = ContentSortedById.get(i);
+					toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
+				}
 			}
+			
+			return toReturn;
 			
 			
 		}
