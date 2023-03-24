@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ public class MainFrame extends JFrame {
 	JList ItemList;
 	DefaultListModel<String> listModel;
 	JLabel lblSortBy = new JLabel("Id");
-	String sort = "Id";
+	
 
 
 	/**
@@ -79,7 +80,7 @@ public class MainFrame extends JFrame {
 				BookItem newbokitem = new BookItem(nameAndNumber[0], nameAndNumber[1]);
 				
 				listModel.clear();
-				listModel.addAll(BookItem.UpdateGUI(sort));
+				listModel.addAll(BookItem.UpdateGUI());
 				
 				JLabel temp = new JLabel();
 				temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
@@ -106,11 +107,12 @@ public class MainFrame extends JFrame {
 		btndelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				try {
-					listModel.remove(ItemList.getSelectedIndex());
-				} catch (Exception e2) {
-					System.out.println(e2.getMessage());
-				}
+
+					BookItem.deleteItemByGUIIndex(ItemList.getSelectedIndex());
+					listModel.clear();
+					listModel.addAll(BookItem.UpdateGUI());
+					
+
 			}
 		});
 		btndelete.setBounds(559, 60, 140, 78);
@@ -145,12 +147,12 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sort = cbSortBy.getSelectedItem().toString();
-				lblSortBy.setText(sort.toString());
+				BookItem.sort = cbSortBy.getSelectedItem().toString();
+				lblSortBy.setText(BookItem.sort);
 				
 				// sort all the items:
 				listModel.clear();
-				listModel.addAll(BookItem.UpdateGUI(sort));
+				listModel.addAll(BookItem.UpdateGUI());
 				
 				System.out.println(listModel);
 
@@ -161,7 +163,11 @@ public class MainFrame extends JFrame {
 		btnchange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				// change the currantly clicked element
+				// change the currently clicked element
+				BookItem.changeNumber(ItemList.getSelectedIndex(), usefulMethods.AskForNumber());
+				
+				listModel.clear();
+				listModel.addAll(BookItem.UpdateGUI());
 				
 			}
 		});
@@ -180,141 +186,7 @@ public class MainFrame extends JFrame {
 
 	}
 	
-	class BookItem{
-		
-		static ArrayList<BookItem> ContentSortedById = new ArrayList<BookItem>();
-		static ArrayList<BookItem> ContentSortedByName = new ArrayList<BookItem>();
 
-		static int TotalBooks = 0;
-		String Name;
-		String Number;
-		String id;
-		
-		public BookItem(String name, String number) {
-			this.Name = name;
-			this.Number = number;
-			this.id = Integer.toString(TotalBooks);
-			
-			ContentSortedById.add(this);
-			addNewItemInNameList(this, 0, TotalBooks-1, 0);
-			TotalBooks ++;
-			
-			printContents();
-			
-			
-			
-			
-			
-			
-		}
-		
-		public void printContents() {
-			
-			String sortedName = "";
-			String sortedId = "";
-			
-			for (int i = 0; i <= TotalBooks-1; i++) {
-				sortedName += ContentSortedByName.get(i).Name+ "   ";
-				sortedId += ContentSortedByName.get(i).id+ "   ";
-			}
-			System.out.println("IDs:   "+sortedId);
-			System.out.println("Names:   "+sortedName);
-			
-		}
-		
-		private void addNewItemInNameList(BookItem ItemToAdd, int LowestIndex, int HighestIndex, int loop) {
-			// alphabetical sort with recursion :)
-			
-			// failed for assar, kelvin, bert
-			int newlowest = LowestIndex;
-			int newhighest = HighestIndex;
-			
-			if (TotalBooks == 0) {
-				ContentSortedByName.add(ItemToAdd);
-				return;
-			}
-			else if (HighestIndex+1 == LowestIndex) {
-				System.out.println("here!!!!!!!!!");
-				ContentSortedByName.add(LowestIndex, ItemToAdd);
-				return;
-			}
-
-
-			else {
-				
-				for (int i = LowestIndex; i <= HighestIndex; i++) {
-					System.out.println(i + "   "+ loop);
-					//make sure that loop doesn't cause errors
-					int curriLen = ContentSortedByName.get(i).Name.length();
-					int targetLen = ItemToAdd.Name.length();
-					
-					
-					
-					
-					
-					if (ItemToAdd.Name.charAt(loop) > ContentSortedByName.get(i).Name.charAt(loop)) {
-						
-						System.out.println(">");
-						if (i == TotalBooks-1) {
-							ContentSortedByName.add(ItemToAdd);
-							return;
-						}
-						newlowest = i+1;
-					}
-					else if (ItemToAdd.Name.charAt(loop) < ContentSortedByName.get(i).Name.charAt(loop)){
-						System.out.println("<");
-						if (i == 0) {
-							
-							ContentSortedByName.add(0, ItemToAdd);
-							return;
-							// only returns one step and then the forloop in the previous loop continues which is a error
-						}
-						
-						newhighest = i-1;
-						break;
-						
-					}
-					
-					
-
-
-				}
-				
-				addNewItemInNameList(ItemToAdd, newlowest, newhighest, loop+1);
-
-			}
-
-			
-		}
-		
-		
-		public static ArrayList<String> UpdateGUI(String modeToChangeTo) {
-			
-			// template: newbokitem.Name +"   "+newbokitem.Number+ "   "+ newbokitem.id
-			ArrayList<String> toReturn = new ArrayList<String>();
-			if (modeToChangeTo == "Name") {
-
-				for (int i = 0; i < ContentSortedByName.size(); i++) {
-					System.out.println(i);
-					BookItem bookItem = ContentSortedByName.get(i);
-					toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
-				}
-			}
-			else if (modeToChangeTo == "Id") {
-				
-				for (int i = 0; i < ContentSortedById.size(); i++) {
-					
-					BookItem bookItem = ContentSortedById.get(i);
-					toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
-				}
-			}
-			
-			return toReturn;
-			
-			
-		}
-	}
-	
 	class usefulMethods {
 		
 		static String[] AskForName() {
@@ -333,6 +205,24 @@ public class MainFrame extends JFrame {
 			
 			// returns the name and number
 			return new String[] {name, number};
+			
+		}
+		
+		static String AskForNumber() {
+			
+			
+			String number = "";
+			boolean repeat = true;
+			while (repeat) {
+				number = JOptionPane.showInputDialog("Ange nytt telefonnummer");
+				
+				if (number.length() > 0) {
+					repeat = false;
+				}
+			}
+			
+			// returns the name and number
+			return number;
 			
 		}
 		
