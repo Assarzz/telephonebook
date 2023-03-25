@@ -49,27 +49,61 @@ public class BookItem{
 		
 		if (TotalBooks == 0) {
 			ContentSortedByName.add(ItemToAdd);
+
 			return;
 		}
 		else if (HighestIndex+1 == LowestIndex) {
+			System.out.println("not here");
 			ContentSortedByName.add(LowestIndex, ItemToAdd);
 			return;
 		}
+		
+//		else if (loop == ContentSortedByName.get(LowestIndex).Name.length()) {
+//			ContentSortedByName.add(HighestIndex+1, ItemToAdd);
+//			System.out.println("here");
+//			return;
+//		}
+		
+		//fails for:
+		//a
+		//albus
+		//albuss
+		//albu   <-----
+		//b
+		
+		//a
+		//as
+		//ass
+		//a <-----
+		//b
+		
+
 		else {
+			boolean onlySpaces = true;
+			String toAddElementName = ItemToAdd.Name;
+			for (int i = 0; i < loop; i++) {
+				toAddElementName += " ";
+			}
 			for (int i = LowestIndex; i <= HighestIndex; i++) {
-				//make sure that loop doesn't cause errors
-				int curriLen = ContentSortedByName.get(i).Name.length();
-				int targetLen = ItemToAdd.Name.length();
 				
-				if (ItemToAdd.Name.charAt(loop) > ContentSortedByName.get(i).Name.charAt(loop)) {
-					
+				String inthElementName = ContentSortedByName.get(i).Name;
+				for (int j = 0; j < loop; j++) {
+					inthElementName +=" ";
+
+				}
+				
+				if (inthElementName.charAt(loop) != ' ') {
+					onlySpaces = false;
+				}
+						
+				if (toAddElementName.charAt(loop) > inthElementName.charAt(loop)) {
 					if (i == TotalBooks-1) {
 						ContentSortedByName.add(ItemToAdd);
 						return;
 					}
 					newlowest = i+1;
 				}
-				else if (ItemToAdd.Name.charAt(loop) < ContentSortedByName.get(i).Name.charAt(loop)){
+				else if (toAddElementName.charAt(loop) < inthElementName.charAt(loop)){
 					if (i == 0) {
 						
 						ContentSortedByName.add(0, ItemToAdd);
@@ -81,6 +115,11 @@ public class BookItem{
 				}
 			}
 			// :)
+			
+			if (onlySpaces) {
+				ContentSortedByName.add(HighestIndex+1, ItemToAdd);
+				return;
+			}
 			addNewItemInNameList(ItemToAdd, newlowest, newhighest, loop+1);
 		}
 	}
@@ -94,7 +133,7 @@ public class BookItem{
 
 			for (int i = 0; i < ContentSortedByName.size(); i++) {
 				BookItem bookItem = ContentSortedByName.get(i);
-				toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
+				toReturn.add(spaceManipulator(bookItem));
 			}
 		}
 		else if (sort == "Id") {
@@ -102,7 +141,7 @@ public class BookItem{
 			for (int i = 0; i < ContentSortedById.size(); i++) {
 				
 				BookItem bookItem = ContentSortedById.get(i);
-				toReturn.add(bookItem.Name+"   "+bookItem.Number+"   "+bookItem.id);
+				toReturn.add(spaceManipulator(bookItem));
 			}
 		}
 		return toReturn;
@@ -165,5 +204,19 @@ public class BookItem{
 
 			}
 		}
+	}
+	
+	private static String spaceManipulator(BookItem bookItem) {
+		
+		int maxNameLenth = 10;
+		int maxNumberLenth = 10;
+		// doesnt work for lenth 10 for some reason
+		String toReturn = "";
+
+		
+		// make my own character width calculator!! that is a cool idea :)
+		toReturn += bookItem.id;
+		
+		return bookItem.Name+"      "+bookItem.Number+"      "+bookItem.id;
 	}
 }

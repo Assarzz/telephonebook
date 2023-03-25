@@ -32,7 +32,6 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	JList ItemList;
 	DefaultListModel<String> listModel;
-	JLabel lblSortBy = new JLabel("Id");
 	
 
 
@@ -82,9 +81,9 @@ public class MainFrame extends JFrame {
 				listModel.clear();
 				listModel.addAll(BookItem.UpdateGUI());
 				
-				JLabel temp = new JLabel();
-				temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
-				
+				// what the does this do????+
+				//JLabel temp = new JLabel();
+				//temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
 
 			}
 		});
@@ -147,15 +146,12 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BookItem.sort = cbSortBy.getSelectedItem().toString();
-				lblSortBy.setText(BookItem.sort);
 				
-				// sort all the items:
+				// I simply swap which array to show the user which creates the impression that elements are being sorted
+				BookItem.sort = cbSortBy.getSelectedItem().toString();
+				
 				listModel.clear();
 				listModel.addAll(BookItem.UpdateGUI());
-				
-				System.out.println(listModel);
-
 			}
 		});
 		
@@ -176,11 +172,6 @@ public class MainFrame extends JFrame {
 		btnchange.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btnchange.setBounds(749, 60, 140, 78);
 		contentPane.add(btnchange);
-		
-		lblSortBy.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSortBy.setOpaque(true);
-		lblSortBy.setBounds(920, 214, 49, 20);
-		contentPane.add(lblSortBy);
 		
 		
 
