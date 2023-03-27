@@ -69,7 +69,7 @@ public class MainFrame extends JFrame {
 		
 		JButton btnAdd = new JButton("Lägg till");
 		btnAdd.setFocusPainted(false);
-		btnAdd.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btnAdd.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,21 +84,21 @@ public class MainFrame extends JFrame {
 				listModel.addAll(BookItem.UpdateGUI());
 			}
 		});
-		btnAdd.setBounds(366, 60, 140, 78);
+		btnAdd.setBounds(768, 128, 140, 78);
 		contentPane.add(btnAdd);
 		
 		listModel = new DefaultListModel<String>();
 		
 		ItemList = new JList(listModel);
 		ItemList.setBackground(new Color(255, 255, 255));
-		ItemList.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		ItemList.setFont(new Font("Courier New", Font.BOLD, 30));
 		ItemList.setBorder(new LineBorder(new Color(0, 0, 0), 4, true));
-		ItemList.setBounds(366, 246, 713, 523);
+		ItemList.setBounds(34, 70, 713, 523);
 		contentPane.add(ItemList);
 	
 		JButton btndelete = new JButton("Ta bort");
 		btndelete.setFocusPainted(false);
-		btndelete.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btndelete.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btndelete.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		btndelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -111,32 +111,22 @@ public class MainFrame extends JFrame {
 
 			}
 		});
-		btndelete.setBounds(559, 60, 140, 78);
+		btndelete.setBounds(768, 300, 140, 78);
 		contentPane.add(btndelete);
 		
 		JLabel lblName = new JLabel("Name");
+		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setOpaque(true);
-		lblName.setBounds(419, 199, 100, 50);
+		lblName.setBounds(34, 37, 200, 36);
 		contentPane.add(lblName);
-		
-		JLabel lblNumber = new JLabel("Number");
-		lblNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumber.setOpaque(true);
-		lblNumber.setBounds(606, 199, 100, 50);
-		contentPane.add(lblNumber);
-		
-		JLabel lblId = new JLabel("Id");
-		lblId.setOpaque(true);
-		lblId.setHorizontalAlignment(SwingConstants.CENTER);
-		lblId.setBounds(749, 199, 100, 50);
-		contentPane.add(lblId);
 		
 		String[] DifferentSorts = { "Id", "Name" };
 		JComboBox cbSortBy = new JComboBox(DifferentSorts);
+		cbSortBy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		cbSortBy.setName("");
 		cbSortBy.setToolTipText("");
-		cbSortBy.setBounds(972, 213, 76, 22);
+		cbSortBy.setBounds(832, 85, 76, 22);
 		contentPane.add(cbSortBy);
 		
 		cbSortBy.addActionListener(new ActionListener() {
@@ -166,8 +156,8 @@ public class MainFrame extends JFrame {
 		});
 		btnchange.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnchange.setFocusPainted(false);
-		btnchange.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		btnchange.setBounds(749, 60, 140, 35);
+		btnchange.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnchange.setBounds(768, 214, 140, 35);
 		contentPane.add(btnchange);
 		
 		JButton btnChangeName = new JButton("Ändra Namn");
@@ -183,9 +173,31 @@ public class MainFrame extends JFrame {
 		});
 		btnChangeName.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnChangeName.setFocusPainted(false);
-		btnChangeName.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		btnChangeName.setBounds(749, 103, 140, 35);
+		btnChangeName.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnChangeName.setBounds(768, 257, 140, 35);
 		contentPane.add(btnChangeName);
+		
+		JLabel lblNumber = new JLabel("Number");
+		lblNumber.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+		lblNumber.setOpaque(true);
+		lblNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumber.setBounds(301, 37, 200, 36);
+		contentPane.add(lblNumber);
+		
+		JLabel lblId = new JLabel("Id");
+		lblId.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+		lblId.setOpaque(true);
+		lblId.setHorizontalAlignment(SwingConstants.CENTER);
+		lblId.setBounds(568, 37, 179, 36);
+		contentPane.add(lblId);
+		
+		JLabel lblNewLabel = new JLabel("Sort by:");
+		lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblNewLabel.setOpaque(true);
+		lblNewLabel.setBounds(768, 85, 65, 22);
+		contentPane.add(lblNewLabel);
 		
 		
 

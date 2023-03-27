@@ -1,6 +1,7 @@
 package assignment_3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // this is a very big class that stores the entire list of elements that is displayed aswell as having a lot of methods for adding, updating, deleting and changing gui elements
 public class BookItem{
@@ -43,7 +44,7 @@ public class BookItem{
 	private void addNewItemInNameList(BookItem ItemToAdd, int LowestIndex, int HighestIndex, int loop) {
 		
 		// alphabetical sort with recursion :)
-		
+		String lowercaseItemToAdd = ItemToAdd.Name.toLowerCase();
 		int newlowest = LowestIndex;
 		int newhighest = HighestIndex;
 		
@@ -63,30 +64,15 @@ public class BookItem{
 //			System.out.println("here");
 //			return;
 //		}
-		
-		//fails for:
-		//a
-		//albus
-		//albuss
-		//albu   <-----
-		//b
-		
-		//a
-		//as
-		//ass
-		//a <-----
-		//b
-		
-
 		else {
 			boolean onlySpaces = true;
-			String toAddElementName = ItemToAdd.Name;
+			String toAddElementName = lowercaseItemToAdd;
 			for (int i = 0; i < loop; i++) {
 				toAddElementName += " ";
 			}
 			for (int i = LowestIndex; i <= HighestIndex; i++) {
 				
-				String inthElementName = ContentSortedByName.get(i).Name;
+				String inthElementName = ContentSortedByName.get(i).Name.toLowerCase();
 				for (int j = 0; j < loop; j++) {
 					inthElementName +=" ";
 
@@ -240,15 +226,42 @@ public class BookItem{
 	
 	private static String spaceManipulator(BookItem bookItem) {
 		
-		int maxNameLenth = 10;
-		int maxNumberLenth = 10;
-		// doesnt work for lenth 10 for some reason
-		String toReturn = "";
-
+		// 13 chars
+		// 4 spaces
+		// 12 numbers
+		// 4 spaces
+		// 3 numbers
 		
-		// make my own character width calculator!! that is a cool idea :)
+		int mNaL = 13;
+		int mNuL = 10;
+		int mIL = 3;
+		String toReturn = "  ";
+		
+		if (bookItem.Name.length() >= mNaL) {
+			toReturn+= bookItem.Name.substring(0, mNaL);
+		}
+		else {
+			toReturn += bookItem.Name;
+			for (int i = 0; i < (mNaL-bookItem.Name.length()); i++) {
+				toReturn += " ";
+			}
+		}
+		toReturn += " | ";
+		
+		if (bookItem.Number.length() >= mNuL ) {
+			toReturn+= bookItem.Number.substring(0, mNuL);
+		}
+		else {
+			toReturn += bookItem.Number;
+			for (int i = 0; i < (mNuL-bookItem.Number.length()); i++) {
+				toReturn += " ";
+			}
+		}
+		toReturn += " | ";
+		
 		toReturn += bookItem.id;
-		
-		return bookItem.Name+"      "+bookItem.Number+"      "+bookItem.id;
+
+		return toReturn;
+		//return bookItem.Name+"      "+bookItem.Number+"      "+bookItem.id;
 	}
 }
