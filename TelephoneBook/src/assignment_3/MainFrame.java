@@ -74,17 +74,14 @@ public class MainFrame extends JFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String[] nameAndNumber = usefulMethods.AskForName();
+				String name = usefulMethods.AskForName();
+				String number = usefulMethods.AskForNumber();
+
 				
-				BookItem newbokitem = new BookItem(nameAndNumber[0], nameAndNumber[1]);
+				BookItem newbokitem = new BookItem(name, number);
 				
 				listModel.clear();
 				listModel.addAll(BookItem.UpdateGUI());
-				
-				// what the does this do????+
-				//JLabel temp = new JLabel();
-				//temp.setText(nameAndNumber[0]+ "   "+ nameAndNumber[1]);
-
 			}
 		});
 		btnAdd.setBounds(366, 60, 140, 78);
@@ -155,11 +152,11 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		JButton btnchange = new JButton("Ändra");
+		JButton btnchange = new JButton("Ändra Nummer");
 		btnchange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				// change the currently clicked element
+				// change the currently clicked elements number
 				BookItem.changeNumber(ItemList.getSelectedIndex(), usefulMethods.AskForNumber());
 				
 				listModel.clear();
@@ -167,11 +164,28 @@ public class MainFrame extends JFrame {
 				
 			}
 		});
-		btnchange.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		btnchange.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnchange.setFocusPainted(false);
 		btnchange.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		btnchange.setBounds(749, 60, 140, 78);
+		btnchange.setBounds(749, 60, 140, 35);
 		contentPane.add(btnchange);
+		
+		JButton btnChangeName = new JButton("Ändra Namn");
+		btnChangeName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// method for changing name. It unfortunately changes the elements id. This is necessary if i want it to work with my sorting system.
+				BookItem.ChangeName(usefulMethods.AskForName(), ItemList.getSelectedIndex());
+				listModel.clear();
+				listModel.addAll(BookItem.UpdateGUI());
+				
+			}
+		});
+		btnChangeName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnChangeName.setFocusPainted(false);
+		btnChangeName.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btnChangeName.setBounds(749, 103, 140, 35);
+		contentPane.add(btnChangeName);
 		
 		
 
@@ -180,22 +194,19 @@ public class MainFrame extends JFrame {
 
 	class usefulMethods {
 		
-		static String[] AskForName() {
+		static String AskForName() {
 			
 			String name = "";
-			String number = "";
 			boolean repeat = true;
 			while (repeat) {
-				name = JOptionPane.showInputDialog("Ange namn");
-				number = JOptionPane.showInputDialog("Ange telefonnummer");
+				name = JOptionPane.showInputDialog("Ange Namn!");
 				
-				if (name.length() > 0 && number.length() > 0) {
+				if (name.length() > 0) {
 					repeat = false;
 				}
 			}
 			
-			// returns the name and number
-			return new String[] {name, number};
+			return name;
 			
 		}
 		
@@ -205,14 +216,13 @@ public class MainFrame extends JFrame {
 			String number = "";
 			boolean repeat = true;
 			while (repeat) {
-				number = JOptionPane.showInputDialog("Ange nytt telefonnummer");
+				number = JOptionPane.showInputDialog("Ange Telefonnummer!");
 				
 				if (number.length() > 0) {
 					repeat = false;
 				}
 			}
 			
-			// returns the name and number
 			return number;
 			
 		}

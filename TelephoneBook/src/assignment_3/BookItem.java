@@ -114,7 +114,7 @@ public class BookItem{
 					break;
 				}
 			}
-			// :)
+			// OMG it works :)
 			
 			if (onlySpaces) {
 				ContentSortedByName.add(HighestIndex+1, ItemToAdd);
@@ -150,8 +150,6 @@ public class BookItem{
 	public static void deleteItemByGUIIndex(int guiIndex) {
 		
 		// Here i delete the element i have selected from the ContentSortedByName and ContentSortedById arrays. afterwards i update the GUI with the updateGUI method.
-		
-		printContents();
 		BookItem toDelete = null;
 		if (sort == "Name") {
 			toDelete = ContentSortedByName.get(guiIndex);
@@ -172,15 +170,26 @@ public class BookItem{
 				break;
 			}
 		}
-
-
 		TotalBooks --;
-		printContents();
+		
+		// fix the issue that indexes are now messed up after delete.
+		for (BookItem bookItem : ContentSortedById) {
+			if (Integer.valueOf(bookItem.id)  > Integer.valueOf(toDelete.id)) {
+				ContentSortedById.get(Integer.valueOf(bookItem.id)-1).id = String.valueOf((Integer.valueOf(bookItem.id)-1));
+			}
+		}
+		for (BookItem bookItem : ContentSortedByName) {
+			if (Integer.valueOf(bookItem.id)  > Integer.valueOf(toDelete.id)) {
+				ContentSortedByName.get(Integer.valueOf(bookItem.id)-1).id = String.valueOf((Integer.valueOf(bookItem.id)-1));
+			}
+		}
+
 
 	}
-	
+		
 	public static void changeNumber(int guiIndex, String numberToChangeTo) {
 		
+		// very easy to do
 		BookItem toChange = null;
 
 		if (sort == "Name") {
@@ -204,6 +213,29 @@ public class BookItem{
 
 			}
 		}
+	}
+	
+	private static BookItem GetElementFromGUIIndex(int guiIndex) {
+		
+		BookItem toGet = null;
+		if (sort == "Name") {
+			toGet = ContentSortedByName.get(guiIndex);
+		}
+		else if (sort == "Id") {
+			toGet = ContentSortedById.get(guiIndex);
+		}
+		return toGet;
+
+	}
+	
+	
+	public static void ChangeName(String newName, int guiIndex) {
+		
+		// this doesen't work because my sorting gets messed up :(
+		BookItem toChange = GetElementFromGUIIndex(guiIndex);
+		deleteItemByGUIIndex(guiIndex);
+		new BookItem(newName, toChange.Number);
+		
 	}
 	
 	private static String spaceManipulator(BookItem bookItem) {
