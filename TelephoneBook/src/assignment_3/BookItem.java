@@ -2,6 +2,7 @@ package assignment_3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 // this is a very big class that stores the entire list of elements that is displayed aswell as having a lot of methods for adding, updating, deleting and changing gui elements
 public class BookItem{
@@ -43,6 +44,7 @@ public class BookItem{
 	
 	private void addNewItemInNameList(BookItem ItemToAdd, int LowestIndex, int HighestIndex, int loop) {
 		
+
 		// alphabetical sort with recursion :)
 		String lowercaseItemToAdd = ItemToAdd.Name.toLowerCase();
 		int newlowest = LowestIndex;
@@ -54,32 +56,30 @@ public class BookItem{
 			return;
 		}
 		else if (HighestIndex+1 == LowestIndex) {
-			System.out.println("not here");
 			ContentSortedByName.add(LowestIndex, ItemToAdd);
 			return;
 		}
-		
-//		else if (loop == ContentSortedByName.get(LowestIndex).Name.length()) {
-//			ContentSortedByName.add(HighestIndex+1, ItemToAdd);
-//			System.out.println("here");
-//			return;
-//		}
+
 		else {
-			boolean onlySpaces = true;
+			
+			// this is the ASCII character with value 1 :) i needed a value smaller than the ASCII value for space which has a value of 32
+			// System.out.println((char)1);
+			// System.out.println((int)'');   --> 1
+			boolean onlyWeridCharLeft = true;
 			String toAddElementName = lowercaseItemToAdd;
 			for (int i = 0; i < loop; i++) {
-				toAddElementName += " ";
+				toAddElementName += "";
 			}
 			for (int i = LowestIndex; i <= HighestIndex; i++) {
 				
 				String inthElementName = ContentSortedByName.get(i).Name.toLowerCase();
 				for (int j = 0; j < loop; j++) {
-					inthElementName +=" ";
+					inthElementName +="";
 
 				}
 				
-				if (inthElementName.charAt(loop) != ' ') {
-					onlySpaces = false;
+				if (inthElementName.charAt(loop) != '') {
+					onlyWeridCharLeft = false;
 				}
 						
 				if (toAddElementName.charAt(loop) > inthElementName.charAt(loop)) {
@@ -102,7 +102,7 @@ public class BookItem{
 			}
 			// OMG it works :)
 			
-			if (onlySpaces) {
+			if (onlyWeridCharLeft) {
 				ContentSortedByName.add(HighestIndex+1, ItemToAdd);
 				return;
 			}
@@ -135,6 +135,7 @@ public class BookItem{
 	
 	public static void deleteItemByGUIIndex(int guiIndex) {
 		
+
 		// Here i delete the element i have selected from the ContentSortedByName and ContentSortedById arrays. afterwards i update the GUI with the updateGUI method.
 		BookItem toDelete = null;
 		if (sort == "Name") {
@@ -143,34 +144,17 @@ public class BookItem{
 		else if (sort == "Id") {
 			toDelete = ContentSortedById.get(guiIndex);
 		}
-		//System.out.println(toDelete.Name);
-		for (int i = 0; i < ContentSortedById.size(); i++) {
-			if (Integer.valueOf(ContentSortedById.get(i).id)  == Integer.valueOf(toDelete.id) ) {
-				ContentSortedById.remove(i);
-				break;
-			}
-		}
-		for (int i = 0; i < ContentSortedByName.size(); i++) {
-			if (Integer.valueOf(ContentSortedByName.get(i).id)  == Integer.valueOf(toDelete.id) ) {
-				ContentSortedByName.remove(i);
-				break;
+		
+		ContentSortedById.remove(toDelete);
+		ContentSortedByName.remove(toDelete);
+		
+		for (BookItem bookItem : ContentSortedById) {
+			if (Integer.valueOf(bookItem.id)  > Integer.valueOf(toDelete.id)) {
+				bookItem.id = Integer.toString(Integer.valueOf(bookItem.id)-1);
+
 			}
 		}
 		TotalBooks --;
-		
-		// fix the issue that indexes are now messed up after delete.
-		for (BookItem bookItem : ContentSortedById) {
-			if (Integer.valueOf(bookItem.id)  > Integer.valueOf(toDelete.id)) {
-				ContentSortedById.get(Integer.valueOf(bookItem.id)-1).id = String.valueOf((Integer.valueOf(bookItem.id)-1));
-			}
-		}
-		for (BookItem bookItem : ContentSortedByName) {
-			if (Integer.valueOf(bookItem.id)  > Integer.valueOf(toDelete.id)) {
-				ContentSortedByName.get(Integer.valueOf(bookItem.id)-1).id = String.valueOf((Integer.valueOf(bookItem.id)-1));
-			}
-		}
-
-
 	}
 		
 	public static void changeNumber(int guiIndex, String numberToChangeTo) {
@@ -264,4 +248,38 @@ public class BookItem{
 		return toReturn;
 		//return bookItem.Name+"      "+bookItem.Number+"      "+bookItem.id;
 	}
+	
+	public static void addNRandomElements(int n){
+		
+		Random r = new Random();
+		
+		
+		for (int i = 0; i < n; i++) {
+			int l =  r.nextInt(1, 13);
+			String local = "";
+			for (int j = 0; j <= l ; j++) {
+				local += (char)r.nextInt(97, 123);
+			}
+			
+			String localN = "07";
+			for (int j = 0; j < 8; j++) {
+				localN += Integer.toString(r.nextInt(0, 10));
+			}
+			
+			new BookItem(local, localN);
+		}
+		
+	}
+	
+	public static void clearContent() {
+		ContentSortedById.clear();
+		ContentSortedByName.clear();
+		TotalBooks = 0;
+	}
 }
+
+
+
+
+
+
