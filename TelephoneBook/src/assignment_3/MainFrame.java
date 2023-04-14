@@ -1,7 +1,6 @@
 package assignment_3;
+
 import java.awt.EventQueue;
-
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +9,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ListModel;
+
 import java.awt.event.ActionListener;
 import java.awt.print.Book;
 import java.util.ArrayList;
@@ -89,20 +91,20 @@ public class MainFrame extends JFrame {
 
 
 				
-
 			}
 		});
-		btnAdd.setBounds(767, 137, 140, 78);
+		btnAdd.setBounds(765, 157, 140, 78);
 		contentPane.add(btnAdd);
 		
 		listModel = new DefaultListModel<String>();
-		
 		ItemList = new JList(listModel);
+		
 		ItemList.setBackground(new Color(255, 255, 255));
 		ItemList.setFont(new Font("Courier New", Font.BOLD, 30));
 		ItemList.setBorder(new LineBorder(new Color(0, 0, 0), 4));
 		ItemList.setBounds(33, 94, 713, 400);
 		contentPane.add(ItemList);
+		
 	
 		JButton btndelete = new JButton("Ta bort");
 		btndelete.setFocusPainted(false);
@@ -121,12 +123,10 @@ public class MainFrame extends JFrame {
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Du måste clicka på de elementet som du vill ta bort!");
 				}
-
-					
-
+				
 			}
 		});
-		btndelete.setBounds(767, 346, 140, 78);
+		btndelete.setBounds(765, 366, 140, 78);
 		contentPane.add(btndelete);
 		
 		JLabel lblName = new JLabel("Name");
@@ -141,7 +141,7 @@ public class MainFrame extends JFrame {
 		cbSortBy.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		cbSortBy.setName("");
 		cbSortBy.setToolTipText("");
-		cbSortBy.setBounds(831, 109, 76, 22);
+		cbSortBy.setBounds(829, 71, 76, 22);
 		contentPane.add(cbSortBy);
 		
 		cbSortBy.addActionListener(new ActionListener() {
@@ -177,7 +177,7 @@ public class MainFrame extends JFrame {
 		btnchange.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnchange.setFocusPainted(false);
 		btnchange.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnchange.setBounds(767, 267, 140, 35);
+		btnchange.setBounds(765, 287, 140, 35);
 		contentPane.add(btnchange);
 		
 		JButton btnChangeName = new JButton("Ändra Namn");
@@ -203,7 +203,7 @@ public class MainFrame extends JFrame {
 		btnChangeName.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnChangeName.setFocusPainted(false);
 		btnChangeName.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnChangeName.setBounds(767, 305, 140, 35);
+		btnChangeName.setBounds(765, 325, 140, 35);
 		contentPane.add(btnChangeName);
 		
 		JLabel lblNumber = new JLabel("Number");
@@ -225,7 +225,7 @@ public class MainFrame extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblNewLabel.setOpaque(true);
-		lblNewLabel.setBounds(767, 109, 65, 22);
+		lblNewLabel.setBounds(765, 71, 65, 22);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("This was made by Assar :)");
@@ -257,7 +257,7 @@ public class MainFrame extends JFrame {
 		btnRandom.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		btnRandom.setFocusPainted(false);
 		btnRandom.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnRandom.setBounds(767, 220, 140, 36);
+		btnRandom.setBounds(765, 240, 140, 36);
 		contentPane.add(btnRandom);
 		
 		JButton btnTaBortAlla = new JButton("Ta bort alla");
@@ -270,11 +270,31 @@ public class MainFrame extends JFrame {
 		btnTaBortAlla.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		btnTaBortAlla.setFocusPainted(false);
 		btnTaBortAlla.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		btnTaBortAlla.setBounds(767, 431, 140, 36);
+		btnTaBortAlla.setBounds(765, 451, 140, 36);
 		contentPane.add(btnTaBortAlla);
 		
-		
+		JButton btnsearch = new JButton("Sök");
+		btnsearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int searchedIndex = BookItem.search(JOptionPane.showInputDialog("Sök efter namn")); 
+				if (searchedIndex != -1 ) {
+					ItemList.setSelectedIndex(searchedIndex);
 
+				}
+				else {
+					ItemList.clearSelection();
+				}
+				
+				
+			}
+		});
+		btnsearch.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		btnsearch.setFocusPainted(false);
+		btnsearch.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		btnsearch.setBounds(765, 105, 140, 41);
+		contentPane.add(btnsearch);
+		
 	}
 	
 
@@ -298,7 +318,6 @@ public class MainFrame extends JFrame {
 		
 		static String AskForNumber() {
 			
-			
 			String number = "";
 			boolean repeat = true;
 			while (repeat) {
@@ -310,7 +329,6 @@ public class MainFrame extends JFrame {
 			}
 			
 			return number;
-			
 		}
 		
 		static int getSelectedGUIIndex(	JList ItemList) {

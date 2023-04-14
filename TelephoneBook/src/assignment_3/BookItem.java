@@ -1,8 +1,11 @@
 package assignment_3;
 
+import java.awt.Window.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.swing.ListModel;
 
 // this is a very big class that stores the entire list of elements that is displayed aswell as having a lot of methods for adding, updating, deleting and changing gui elements
 public class BookItem{
@@ -198,7 +201,6 @@ public class BookItem{
 
 	}
 	
-	
 	public static void ChangeName(String newName, int guiIndex) {
 		
 		// this doesen't work because my sorting gets messed up :(
@@ -276,10 +278,32 @@ public class BookItem{
 		ContentSortedByName.clear();
 		TotalBooks = 0;
 	}
+	
+	
+	public static int search(String searchTerm) {
+		
+		if (sort == "Name") {
+			for (int i = 0; i < ContentSortedByName.size(); i++) {
+				
+				if (ContentSortedByName.get(i).Name.equals(searchTerm)) {
+					return i;
+				}
+			}
+		}
+		
+		else if (sort == "Id") {
+			for (int i = 0; i < ContentSortedById.size(); i++) {
+
+				if (ContentSortedById.get(i).Name.equals(searchTerm)) {
+					return i;
+				}
+			}
+		}
+		
+		return -1;
+		
+		
+	}
+	
 }
-
-
-
-
-
 
