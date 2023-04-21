@@ -28,12 +28,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.Window.Type;
 
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
 	JList ItemList;
 	DefaultListModel<String> listModel;
+	JScrollPane scrollPane;
 	
 
 
@@ -57,13 +61,16 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setTitle("Telefonboken :)");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Assar Lannerborn\\Desktop\\IconImage4.png"));
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		setForeground(new Color(0, 128, 192));
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(0, 0, 0));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50, 50, 1200, 550);
 		contentPane = new JPanel();
 		contentPane.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		contentPane.setBackground(new Color(0, 128, 255));
+		contentPane.setBackground(new Color(64, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -99,13 +106,15 @@ public class MainFrame extends JFrame {
 		listModel = new DefaultListModel<String>();
 		ItemList = new JList(listModel);
 		
-		ItemList.setBackground(new Color(255, 255, 255));
+		scrollPane = new JScrollPane(ItemList);
+	    scrollPane.setBounds(33, 94, 713, 400);
+
+		//ItemList.setBackground(new Color(255, 255, 255));
 		ItemList.setFont(new Font("Courier New", Font.BOLD, 30));
-		ItemList.setBorder(new LineBorder(new Color(0, 0, 0), 4));
-		ItemList.setBounds(33, 94, 713, 400);
-		contentPane.add(ItemList);
-		
-	
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 4));
+	    contentPane.add(scrollPane);
+
+	    
 		JButton btndelete = new JButton("Ta bort");
 		btndelete.setFocusPainted(false);
 		btndelete.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -229,6 +238,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("This was made by Assar :)");
+		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBackground(new Color(255, 255, 255));
@@ -341,9 +351,5 @@ public class MainFrame extends JFrame {
 				return selectedIndex;
 			}
 		}
-		
-		
-		
-		
 	}
 }

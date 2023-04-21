@@ -293,7 +293,7 @@ public class BookItem{
 		
 		else if (sort == "Id") {
 			for (int i = 0; i < ContentSortedById.size(); i++) {
-
+					
 				if (ContentSortedById.get(i).Name.equals(searchTerm)) {
 					return i;
 				}
@@ -301,8 +301,6 @@ public class BookItem{
 		}
 		
 		return -1;
-		
-		
 	}
 	
 }
