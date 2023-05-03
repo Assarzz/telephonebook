@@ -1,12 +1,15 @@
 package assignment_3;
 
 import java.awt.Window.Type;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.ListModel;
 
+import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 // this is a very big class that stores the entire list of elements that is displayed aswell as having a lot of methods for adding, updating, deleting and changing gui elements
 public class BookItem{
 	
@@ -116,7 +119,7 @@ public class BookItem{
 	
 	public static ArrayList<String> UpdateGUI() {
 		
-		// every time i make a change to the GUI i can make changes in the BookItem lists and then i update the gui afterwards
+		// every time i make a change to the GUI i can make changes in the BookItem lists and then i update the gui afterwards with this method
 		ArrayList<String> toReturn = new ArrayList<String>();
 		if (sort == "Name") {
 
@@ -218,10 +221,10 @@ public class BookItem{
 		// 4 spaces
 		// 3 numbers
 		
-		int mNaL = 13;
+		int mNaL = 15;
 		int mNuL = 10;
-		int mIL = 3;
-		String toReturn = "  ";
+		int mIL = 4;
+		String toReturn = " ";
 		
 		if (bookItem.Name.length() >= mNaL) {
 			toReturn+= bookItem.Name.substring(0, mNaL);
@@ -254,6 +257,15 @@ public class BookItem{
 	public static void addNRandomElements(int n){
 		
 		Random r = new Random();
+		//try {
+
+		//} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		//}
+		
+		
+		
 		
 		
 		for (int i = 0; i < n; i++) {
@@ -291,11 +303,13 @@ public class BookItem{
 			}
 		}
 		
+		
 		else if (sort == "Id") {
 			for (int i = 0; i < ContentSortedById.size(); i++) {
 					
 				if (ContentSortedById.get(i).Name.equals(searchTerm)) {
 					return i;
+					
 				}
 			}
 		}

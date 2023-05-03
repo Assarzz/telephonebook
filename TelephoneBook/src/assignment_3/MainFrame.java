@@ -1,5 +1,5 @@
 package assignment_3;
-
+import java.util.*;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,8 +39,6 @@ public class MainFrame extends JFrame {
 	DefaultListModel<String> listModel;
 	JScrollPane scrollPane;
 	
-
-
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +48,8 @@ public class MainFrame extends JFrame {
 				try {
 					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
+					
+					JOptionPane.showMessageDialog(frame, "Detta är min telefonbok. Det finns många funktioner, och jag är mest stolt över min sorteringsfunktion. Min sökfunktion är inte så avancerad men jag tycker att min sorteringsfunktion löser samma problem");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,13 +70,18 @@ public class MainFrame extends JFrame {
 		setBounds(50, 50, 1200, 550);
 		contentPane = new JPanel();
 		contentPane.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		contentPane.setBackground(new Color(64, 0, 0));
+		
+		// Random color every time new app is started
+		Random r = new Random();
+		int[] bg_rgb = new int[] {r.nextInt(0, 256),r.nextInt(0, 256),r.nextInt(0, 256)};
+		contentPane.setBackground(new Color(bg_rgb[0], bg_rgb[1], bg_rgb[2]));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnAdd = new JButton("Lägg till");
+		btnAdd.setForeground(new Color(0, 0, 0));
 		btnAdd.setFocusPainted(false);
 		btnAdd.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -97,6 +102,7 @@ public class MainFrame extends JFrame {
 				}
 
 
+	
 				
 			}
 		});
@@ -105,10 +111,12 @@ public class MainFrame extends JFrame {
 		
 		listModel = new DefaultListModel<String>();
 		ItemList = new JList(listModel);
+
 		
 		scrollPane = new JScrollPane(ItemList);
 	    scrollPane.setBounds(33, 94, 713, 400);
-
+	    
+	    
 		//ItemList.setBackground(new Color(255, 255, 255));
 		ItemList.setFont(new Font("Courier New", Font.BOLD, 30));
 		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 4));
@@ -294,6 +302,8 @@ public class MainFrame extends JFrame {
 				}
 				else {
 					ItemList.clearSelection();
+					JOptionPane.showMessageDialog(null, "Det sökta elementet måste vara identiskt med den du letar efter. Använd den alfabetiska sorteringen för att lät hitta de du letar efter!");
+
 				}
 				
 				
